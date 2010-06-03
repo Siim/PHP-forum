@@ -5,4 +5,5 @@ REQUIREMENTS
 HOWTO install
   1) Upload files to server
   2) Make sure database dir is writable during installion
-  3) go to http://my-server.com/path-to-forum/?c=install
+  3) Edit index.php EMAIL_FORM (yes yes, stupid idea.. I will change that)
+  4) go to http://my-server.com/path-to-forum/?c=install
