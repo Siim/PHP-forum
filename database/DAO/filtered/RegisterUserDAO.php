@@ -13,17 +13,17 @@ class RegisterUserDAO extends UserDAO{
     unset($_SESSION['errors']);
 
     if(strlen($user)<3){
-      $_SESSION['error']['min'] = "Kasutajanimi peab koosnema vähemalt kolmest sümbolist";
+      $_SESSION['error']['min'] = "Username must be at leat 3 characters long.";
       $this->valid = false;
     }
 
     if(strlen($user)>20){
-      $_SESSION['error']['max'] = "Kasutajanimi liiga pikk, maksimaalne pikkus 20 sümbolit";
+      $_SESSION['error']['max'] = "Username too long. Maximum allowed length is 20 characters.";
       $this->valid = false;
     }
 
     if($this->query->exists('username',$user)){
-      $_SESSION['error']['exists'] = "Selline kasutaja on juba olemas!";
+      $_SESSION['error']['exists'] = "This username alraedy exists. Please select another.";
       $this->valid = false;
     }
 
@@ -32,7 +32,7 @@ class RegisterUserDAO extends UserDAO{
 
   protected function passwordFilter($password){
     if(strlen($password)<5){
-      $_SESSION['error']['pass'] = "Parool peab olema vähemal 5 tähemärki pikk!";
+      $_SESSION['error']['pass'] = "Password must be at least 5 characters long";
       $this->valid = false;
       return $password;
     }else{
@@ -45,13 +45,13 @@ class RegisterUserDAO extends UserDAO{
     if(preg_match($pattern,$email)){
       if($this->query->exists('email',$email)){
         $this->valid = false;
-        $_SESSION['error']['mail'] = "Sellise e-mailiga kasutaja on juba registreeritud!";
+        $_SESSION['error']['mail'] = "Another user with this e-mail is already registered!";
       }else{
         $this->valid = true;
       }
     }else{
       $this->valid = false;
-      $_SESSION['error']['email'] = "Sisesta korrektne e-mail!";
+      $_SESSION['error']['email'] = "Invalid e-mail address";
     }
     return $email;
   }

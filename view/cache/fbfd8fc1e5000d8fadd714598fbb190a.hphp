@@ -1,3 +1,0 @@
-Vale kasutajanimi või parool!
-<a<?php $this->writeAttributes(array ('href' => url('?c=user&a=resetpass'))); ?>>Unustasid parooli?</a>
-

@@ -11,7 +11,7 @@ class ProfileUserDAO extends UserDAO{
 
   protected function passwordFilter($password){
     if(strlen($password)<5){
-      $_SESSION['error']['pass'] = "Parool peab olema vähemal 5 tähemärki pikk!";
+      $_SESSION['error']['pass'] = "Password must be at least 5 characters long!";
       $this->valid = false;
     }
     return $password;

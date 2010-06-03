@@ -12,7 +12,7 @@ class SaveTopicDAO extends TopicDAO{
   
   public function contentFilter($content){
     if(trim($content)===''){
-      $_SESSION['error']['content'] = "Postituse sisu on tühi!";
+      $_SESSION['error']['content'] = "Message is empty!";
       $this->valid = false;
     }
     return $content;
@@ -21,12 +21,12 @@ class SaveTopicDAO extends TopicDAO{
   public function titleFilter($title){
     $len = strlen(trim($title));
     if($len<5){
-      $_SESSION['error']['title'] = "Pealkiri liiga lühike (min 5 tähemärki)!";
+      $_SESSION['error']['title'] = "The title is too short! (min 5 characters)";
       $this->valid = false;
     }
 
     if($len>100){
-      $_SESSION['error']['title'] = "Pealkiri liiga pikk (max 100 tähemärki, teie sisestasite: $len tähemärki)!";
+      $_SESSION['error']['title'] = "The title is too long (max 100 characters / current length: $len)!";
       $this->valid = false;
     }
     return strip_tags($title);
