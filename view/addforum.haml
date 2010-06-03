@@ -1,0 +1,28 @@
+.content{ :align => 'center' }
+  %table{ :cellspacing => '0.0', :cellpadding => '0.0', :width =>'500' }
+    %thead.forumbg.forumhead
+      %th.top-left{ :colspan => '2' }= $title
+      %th.top-right{ :width => 20 } 
+      
+    %tr.row-0
+      %td{ :colspan => '3', :align => 'left' }
+        .formwrap.postform
+          %form{ :method => 'post', :action => url('?a=saveforum') }
+            %div
+              %input{ :type => 'hidden', :name=>'f', :value=>$f }
+              %label{ :for => 'title'} Title
+              %input{ :type => 'text', :name => title, :value=>utf8_decode($forum->title)}
+            %div
+              - if(!($edit))
+                %label{ :for => 'descritpion'} Description
+                %input{ :type => 'text', :name => 'description', :value=>utf8_decode($forum->description) }
+              - if($edit)
+                %input{ :type=>'hidden', :name=>'topic', :value=>'1' }
+              
+            .clear
+            
+            %input.sbutton{ :type => 'submit', :name => 'Save', :value => 'Save' }
+    %tr.forumbg.forumfoot
+      %td.bottom-left
+      %td
+      %td.bottom-right 

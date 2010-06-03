@@ -1,0 +1,53 @@
+.content{ :align => 'center' }
+  - if($error):
+    .message.errors
+      %ul
+        - foreach($error as $e):
+          %li= $e
+        - endforeach
+  - endif
+  %table{ :cellspacing => '0.0', :cellpadding => '0.0', :width =>'500' }
+    %thead.forumbg.forumhead
+      %th.top-left{ :colspan => '2' }= $title
+      %th.top-right{ :width => 20 } 
+      
+    %tr.row-0
+      %td{ :colspan => '3', :align => 'left' }
+        .formwrap.postform
+          %form{ :method => 'post', :action => url('?c=install&a=save') }
+            %fieldset
+              %legend Database settings
+              %div
+                %label{ :for => 'dbhostname'} Server
+                %input{ :type => 'text', :name => 'dbhostname', :value=>'localhost' }
+              .clear
+              %div
+                %label{ :for => 'dbname'} Database
+                %input{ :type => 'text', :name => 'dbname', :value=>$post['dbname'] }
+              .clear
+              %div
+                %label{ :for => 'dbusername'} Username
+                %input{ :type => 'text', :name => 'dbusername', :value=>$post['dbusername'] }
+              .clear
+              %div
+                %label{ :for => 'dbpassword'} Password
+                %input{ :type => 'password', :name => 'dbpassword', :value=>$post['dbpassword'] }
+              .clear
+            .splitter
+
+            %fieldset
+              %legend Admin user settings
+              %div
+                %label{ :for => 'username'} Username
+                %input{ :type => 'text', :name => 'username', :value=>$post['username'] }
+              .clear
+
+              %div
+                %label{ :for => 'password'} Password
+                %input{ :type => 'password', :name => 'password', :value=>$post['password'] }
+              .clear
+            %button.installbutton{ :type => 'submit'} Install
+    %tr.forumbg.forumfoot
+      %td.bottom-left
+      %td
+      %td.bottom-right 

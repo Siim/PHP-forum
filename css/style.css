@@ -1,0 +1,318 @@
+body{
+  margin: 0;
+  font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+}
+
+table{
+  text-align: left;
+}
+
+.content {
+  font-size: 12px;
+  line-height: 140%;
+}
+
+.content table tr{
+  margin: 0;
+}
+
+.content .forumbg{
+  background: #f2f2f2;
+}
+
+.content .forumhead,
+.content .forumfoot
+{
+  height: 30px;
+}
+
+.content .forumhead{
+  text-align: center;
+  font-weight: bold;
+}
+
+.forumhead td{
+  font-weight: bold;
+  font-size: 12px;
+  color: #483e37;
+}
+
+.content table.forums td{
+  padding: 12px;
+}
+
+a:link,
+a:visited
+{
+  color: #6c5d53;
+  text-decoration: none;
+}
+
+.row-0,
+.row-1{
+  color: #917c6f;
+}
+
+.row-0{
+  background: #f2f2f2;
+}
+
+.row-1{
+  background: #f6ffd5;
+}
+
+.fdescr{
+  font-size: 10px;
+  color: #917c6f;
+}
+
+.ftitle{
+  font-weight: bold;
+}
+
+/*Top panel styles*/
+
+.toppanel{
+  font-size: 10px;
+}
+
+.toolbox{
+  width: 710px;
+  padding: 20px;
+  text-align: left;
+}
+
+.center{
+  width: 710px;
+  padding-bottom: 40px;
+}
+
+.additem{
+  padding-left: 20px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  background: url(../img/add.png) no-repeat left;
+
+}
+
+
+/*rounded corners*/
+
+.top-left{
+  background: url(../img/top-left.png) top left no-repeat;
+}
+
+
+.top-right{
+  background: url(../img/top-right.png) top right no-repeat;
+}
+
+.bottom-left{
+  background: url(../img/bottom-left.png) bottom left no-repeat;
+}
+
+.bottom-right{
+  background: url(../img/bottom-right.png) bottom right no-repeat;
+}
+
+/* Topic */
+.topictitle{
+  padding-bottom: 10px;
+  font-weight: bold;
+}
+
+/* Button */
+.button-left{
+  background: url(../img/button-left.png) top left no-repeat;
+  height:25px;
+}
+
+.button-center{
+  background: url(../img/button-center.png);
+  height: 25px;
+  margin-left: 5px;
+  float: left;
+}
+
+.button-right{
+  background: url(../img/button-right.png) top right no-repeat;
+  height:25px;
+  width: 5px;
+  float: left;
+}
+
+/* Forms */
+
+.postform label{
+  float: left;
+  width: 120px;
+  font-weight: bold;
+}
+
+input,textarea,.regbutton{
+  border: 1px solid #e6e6e6;
+  margin-bottom: 5px;
+}
+.postform input, .postform textarea{
+  width: 320px;
+}
+
+.postform textarea{
+  height: 150px;
+}
+
+.clear{
+  clear: both;
+}
+
+.sbutton,
+.formwrap .sbutton,
+.installbutton
+{
+  width: 100px;
+  border: 1px solid gray;
+}
+
+.sbutton{
+  margin-left: 120px;
+  margin-top: 20px;
+}
+.formwrap{
+  width: 450px;
+  padding: 20px;
+}
+
+/* bbcode */
+.quote p{
+  border: 1px solid #e6e6e6;
+  padding: 5px;
+  margin:2px;
+
+}
+
+img{
+  border: none;
+}
+
+.breadcrumb{
+  font-size: 10px;
+  text-align: left;
+  width: 700px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  color: #917C6F;
+}
+
+.breadcrumb span.active{
+  color: black;
+}
+
+.pdate{
+  padding-bottom: 10px;
+}
+
+.thinrow,
+.postrow{
+  border-bottom: 1px solid white;
+}
+
+.postrow{
+  padding: 20px;
+}
+
+table.postreplay{
+  margin-top: 1px;
+}
+
+.userinf{
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.topiccontent{
+  padding: 20px;
+}
+
+.login{
+  width: 500px;
+  height: 30px;
+  font-size: 10px;
+  padding-top: 5px;
+  margin-bottom: 40px;
+  background: url(../img/topbar.png) no-repeat bottom center;
+}
+
+.login-text{
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 5px;
+  padding-left: 75px;
+}
+
+.login input{
+  width: 70px;
+}
+
+.content img{
+  max-width: 600px;
+}
+
+.login input.button{
+  width: 50px;
+}
+
+.login label{
+  padding-left: 10px;
+  font-size: 12px;
+}
+
+.regbutton{
+  cursor: pointer;
+  margin: 0;
+  padding: 2px;
+  font-size: 12px;
+}
+
+.message{
+  padding: 20px;
+  color: #FF0033;
+  width: 450px;
+  font-size: 14px;
+  border: #FF9966 1px solid;
+  background: #FFCC99;
+
+}
+
+.message ul{
+  margin: 0;
+  padding: 0;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.errors{
+  margin-bottom: 40px;
+
+}
+
+.pages{
+  float: right;
+  color: #F0F0F0;
+}
+
+fieldset{
+  padding: 20px;
+  border: 1px solid #E0E0E0;
+}
+
+.installbutton{
+  width: 150px;
+  margin-left: 2px;
+  border: 1px solid gray;
+}
+
+.splitter{
+  height: 20px;
+
+}

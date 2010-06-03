@@ -1,0 +1,32 @@
+!!!Transitional
+%html{ :xmlns=> "http://www.w3.org/1999/xhtml" }
+  %head
+    %title= $title
+    %link{ :href => url('css/style.css'), :rel => 'stylesheet', :type => 'text/css' }
+    %meta{ :http-equiv => 'Content-Type', :content => "text/html; charset=utf-8" }
+  %body
+    %div{ :align=>'center' }
+      .login
+        - if(!isset($user)):
+          %form{ :action=>url('?c=user&a=login'), :method=>'post' }
+            %label{ :for=>'username'} Username
+            %input{ :type => 'text', :name =>'username' }
+            %label{ :for=>'password'} Password
+            %input{ :type=>'password', :name=>'password' }
+            %input.button{ :type => 'submit', :name => 'login', :value => 'Go' }
+            %span.regbutton
+              %a{ :href=> url('?c=user&a=register') } Register
+        - else:
+          %span= 'User: ' . $user['username'] . ' / '
+          %a{ :href=>url('?c=user&a=editprofile') } Change password
+          %span /
+          %a{ :href=>url('?c=user&a=logout') } Logout
+          %span= ' / postitusi: ' . $user['posts']
+        - endif
+    - if($message):
+      .toppanel{ :align=>'center'}
+        .center
+          .message= $message
+    - endif
+    = $content
+

@@ -1,0 +1,50 @@
+- if($user['admin'])
+  .toppanel{ :align => 'center' }
+    .toolbox
+      %p
+        %a.additem{ :href => url('?a=newforum')} Add new subforum
+
+.content{ :align => 'center' }
+  %table.forums{ :cellspacing => '1', :cellpadding => '0', :width =>'720' }
+    %tr.forumbg.forumhead
+      %td.top-left{ :width => '370'} Forum
+      %td Topics
+      - if($user['admin']):
+        %td Last post
+        %td.top-right Edit
+      - else:
+        %td.top-right Last post
+      - endif
+    - $i=0
+    - foreach($teemad as $t)
+      - $step = $i%2
+      %tr{ :class => "row-$step"}
+        - $i++
+        %td
+          .ftitle
+            %a{ :href =>url("?a=viewforum&f=").$t['id']}= $t['title']
+          .fdescr= $t['description']
+        %td{ :align => 'center'}= $t['count'];
+        %td{ :align => 'center'} 
+          - if($t['count']==0):
+            -
+          - else:
+            = date("d.m.Y H:i",strtotime($t['lastpost']))
+          - endif
+
+        - if($user['admin']):
+          %td 
+            %a{ :href => url('?a=editforum&f=').$t['id']} 
+              %img{ :src => url('img/edit.png'), :alt=> 'Kustuta'}
+
+            %a{ :href => url('?a=deleteforum&f=').$t['id']} 
+              %img{ :src => url('img/delete.png'), :alt=> 'Kustuta'}
+        - endif
+
+    %tr.forumbg.forumfoot
+      %td.bottom-left
+      %td
+      - if($user['admin']):
+        %td
+      - endif
+      %td.bottom-right

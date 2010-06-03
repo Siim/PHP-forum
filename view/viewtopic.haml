@@ -1,0 +1,53 @@
+.toppanel{ :align=>'center' }
+  .breadcrumb
+    %a{ :href=> url('') } Forums
+    > 
+    %a{ :href=> url('?a=viewforum&f=').$parent->id }= $parent->title
+    >
+    %span.active= strlen($topic->title)>50?substr($topic->title,0,50).'...':$topic->title
+    .pages
+      !! pages
+  
+.content{ :align => 'center' }
+  %table{ :cellspacing => '0.0', :cellpadding => '0.0', :width =>'720' }
+    %tr.forumbg.forumhead
+      %td.thinrow.top-left= $topic->title
+      %td.thinrow.top-right{ :width=>'10' }
+      
+    - foreach($posts as $post)
+      %tr.row-0
+        %td.postrow{ :valign => 'top', :colspan=>'2'}
+          .userinf
+            - if($user['admin']):
+              %a{ :href=>url('?a=deletepost&pid='.$post['id']) }
+                %img{ :src => url('img/delete.png'), :alt=> 'Delete'}
+            - endif
+            %span.username= $post['username']
+            %span.pdate= '[' . date("d.m.Y H:i",strtotime($post['date'])) . ']:'
+          .topiccontent= $bbcode->format(strip_tags($post['content']))
+    %tr.forumbg.forumfoot
+      %td.bottom-left{ :align=>'center' }
+      %td.bottom-right
+  - if($user):
+    %table.postreplay.forums{ :cellspacing => '0.0', :cellpadding => '0.0', :width =>'720' }
+      %tr.forumbg.forumhead
+        %td.top-left 
+        %td.top-right{ :width => 20 } 
+        
+      %tr.row-0
+        %td{ :colspan => '2', :align => 'left' }
+          .formwrap.postform
+            %form{ :method => 'post', :action => url('?a=savepost') }
+              %input{ :type => 'hidden', :name => 'id', value => $id}
+              %div
+                %label{ :for => 'content'} 
+                  %a{ :name=>'last'} Replay
+                %textarea{ :name => 'content' }
+                
+              .clear
+              
+              %input.sbutton{ :type => 'submit', :name => 'Save', :value => 'Save' }
+      %tr.forumbg.forumfoot
+        %td.bottom-left
+        %td.bottom-right 
+  - endif

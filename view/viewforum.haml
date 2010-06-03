@@ -1,0 +1,57 @@
+.toppanel{ :align => 'center' }
+   
+  - if($user)
+    .toolbox
+      %a.additem{ :href => url('?a=newtopic&f=').$forum->id } New topic
+  .breadcrumb
+    %a{ :href=> url('') } Forums
+    > 
+    %span.active= $forum->title
+    .pages
+      !! pages
+  .clear
+.content{ :align => 'center' }
+  %table.forums{ :cellspacing => '1', :cellpadding => '0', :width =>'720' }
+    %tr.forumbg.forumhead
+      %td.top-left{ :width => '370'} Topic
+      %td Posts
+      - if($user and $user['admin']):
+        %td Last post
+        %td.top-right Edit
+      - else:
+        %td.top-right Last post
+      - endif
+    
+    - $i=0
+    - foreach($teemad as $t)
+      - $step = $i%2
+      %tr{ :class => "row-$step"}
+        - $i++
+        %td
+          .ftitle
+            %a{ :href =>url('?a=viewtopic&t=').$t['id']}= $t['title']
+          .fdescr= $t['description']
+        %td{ :align => 'center'}= $t['count']
+        %td{ :align => 'center'} 
+          - if($t['count']==0):
+            -
+          - else:
+            = date("d.m.Y H:i",strtotime($t['lastpost']));
+          - endif
+        - if($user and $user['admin']):
+          %td
+            %a{ :href => url('?a=edittopic&f=').$t['id']} 
+              %img{ :src => url('img/edit.png'), :alt=> 'Edit'}
+            %a{ :href => url('?a=deletetopic&f=').$t['id']} 
+              %img{ :src => url('img/delete.png'), :alt=> 'Delete'}
+        - endif
+    %tr.forumbg.forumfoot
+      - if($user and $user['admin']):
+        %td.bottom-left
+        %td
+        %td
+      - else:
+        %td.bottom-left
+        %td
+      - endif
+      %td.bottDeletet
