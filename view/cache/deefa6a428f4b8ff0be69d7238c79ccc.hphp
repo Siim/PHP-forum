@@ -1,0 +1,74 @@
+<div<?php $this->writeAttributes(array ('align' => 'center', 'class' => 'toppanel')); ?>>
+  
+<?php if($user) {?>  <div<?php $this->writeAttributes(array ('class' => 'toolbox')); ?>>
+    <a<?php $this->writeAttributes(array ('href' => url('?a=newtopic&f=').$forum->id, 'class' => 'additem')); ?>>Uus teema</a>
+  </div>
+<?php } ?>  <div<?php $this->writeAttributes(array ('class' => 'breadcrumb')); ?>>
+    <a<?php $this->writeAttributes(array ('href' => url(''))); ?>>Foorumid</a>
+    >
+    <span<?php $this->writeAttributes(array ('class' => 'active')); ?>><?php echo $forum->title; ?>
+</span>
+    <div<?php $this->writeAttributes(array ('class' => 'pages')); ?>>
+<?php   if($page>1&&$page<=$count): {?>      <a<?php $this->writeAttributes(array ('href' => url(query() . 'page='. ($page-10)))); ?>>Eelmine leht</a>
+<?php } ?><?php   else: {?>        Eelmine leht
+<?php } ?><?php   endif;?>      <span>/</span>
+<?php   if($count>$page+10): {?>      <a<?php $this->writeAttributes(array ('href' => url(query() . 'page='. ($page+10)))); ?>>Järgmine leht</a>
+<?php } ?><?php   else: {?>        Järgmine leht
+<?php } ?><?php   endif;?>      <span>
+        /
+<?php     $last = $count-($count%10);?><?php     if($count>10&&$last!=$page): {?><?php       if($count>$last): {?>          <a<?php $this->writeAttributes(array ('href' => url(query(). 'page='. $last))); ?>>Viimane</a>
+<?php } ?><?php       elseif($page!=($last-10)): {?>          <a<?php $this->writeAttributes(array ('href' => url(query(). 'page='. ($last-10)))); ?>>Viimane</a>
+<?php } ?><?php       else: {?>          <span>Viimane</span>
+<?php } ?><?php       endif;?><?php } ?><?php     else: {?>          Viimane
+<?php } ?><?php     endif;?>      </span>
+      
+    </div>
+  </div>
+  <div<?php $this->writeAttributes(array ('class' => 'clear')); ?>></div>
+</div>
+<div<?php $this->writeAttributes(array ('align' => 'center', 'class' => 'content')); ?>>
+  <table<?php $this->writeAttributes(array ('cellspacing' => '1', 'cellpadding' => '0', 'width' => '720', 'class' => 'forums')); ?>>
+    <tr<?php $this->writeAttributes(array ('class' => 'forumbg forumhead')); ?>>
+      <td<?php $this->writeAttributes(array ('width' => '370', 'class' => 'top-left')); ?>>Teema</td>
+      <td>Postitusi</td>
+<?php   if($user and $user['admin']): {?>      <td>Viimane postitus</td>
+      <td<?php $this->writeAttributes(array ('class' => 'top-right')); ?>>Muuda</td>
+<?php } ?><?php   else: {?>      <td<?php $this->writeAttributes(array ('class' => 'top-right')); ?>>Viimane postitus</td>
+<?php } ?><?php   endif;?>    </tr>
+    
+<?php $i=0;?><?php foreach($teemad as $t) {?><?php   $step = $i%2;?>    <tr<?php $this->writeAttributes(array ('class' => "row-$step")); ?>>
+<?php     $i++;?>      <td>
+        <div<?php $this->writeAttributes(array ('class' => 'ftitle')); ?>>
+          <a<?php $this->writeAttributes(array ('href' => url('?a=viewtopic&t=').$t['id'])); ?>><?php echo $t['title']; ?>
+</a>
+        </div>
+        <div<?php $this->writeAttributes(array ('class' => 'fdescr')); ?>><?php echo $t['description']; ?>
+</div>
+      </td>
+      <td<?php $this->writeAttributes(array ('align' => 'center')); ?>><?php echo $t['count']; ?>
+</td>
+      <td<?php $this->writeAttributes(array ('align' => 'center')); ?>>
+<?php       if($t['count']==0): {?>            -
+<?php } ?><?php       else: {?>            <?php echo date("d.m.Y H:i",strtotime($t['lastpost']));; ?>
+
+<?php } ?><?php       endif;?>      </td>
+<?php     if($user and $user['admin']): {?>        <td>
+          <a<?php $this->writeAttributes(array ('href' => url('?a=edittopic&f=').$t['id'])); ?>>
+            <img<?php $this->writeAttributes(array ('src' => url('img/edit.png'), 'alt' => 'Kustuta')); ?> />
+          </a>
+          <a<?php $this->writeAttributes(array ('href' => url('?a=deletetopic&f=').$t['id'])); ?>>
+            <img<?php $this->writeAttributes(array ('src' => url('img/delete.png'), 'alt' => 'Kustuta')); ?> />
+          </a>
+        </td>
+<?php } ?><?php     endif;?>    </tr>
+<?php } ?>    <tr<?php $this->writeAttributes(array ('class' => 'forumbg forumfoot')); ?>>
+<?php   if($user and $user['admin']): {?>      <td<?php $this->writeAttributes(array ('class' => 'bottom-left')); ?>></td>
+      <td></td>
+      <td></td>
+<?php } ?><?php   else: {?>      <td<?php $this->writeAttributes(array ('class' => 'bottom-left')); ?>></td>
+      <td></td>
+<?php } ?><?php   endif;?>      <td<?php $this->writeAttributes(array ('class' => 'bottom-right')); ?>></td>
+    </tr>
+  </table>
+</div>
+

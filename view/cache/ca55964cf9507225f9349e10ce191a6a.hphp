@@ -1,0 +1,3 @@
+Wrong username or password!
+<a<?php $this->writeAttributes(array ('href' => url('?c=user&a=resetpass'))); ?>>Forgot password?</a>
+
