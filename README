@@ -1,0 +1,8 @@
+REQUIREMENTS
+  1) php5 with pdo_mysql extension enabled
+  2) mysql
+
+HOWTO install
+  1) Upload files to server
+  2) Make sure database dir is writable during installion
+  3) go to http://my-server.com/path-to-forum/?c=install
