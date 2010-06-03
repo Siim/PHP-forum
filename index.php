@@ -19,7 +19,7 @@
   /* Define layout/design file */
   define('LAYOUT_FILE', VIEW_DIR .'layout.haml');
   define('ERROR_404_PAGE','error404.haml');
-  define('EMAIL_FROM','KNK Foorum <info@keilanoortekeskus.ee>');
+  define('EMAIL_FROM','Forum admin <admin@foobarbazbathatcatdot.com>');
   
   require_once 'database/DAO/UserDAO.php';
   session_start();
