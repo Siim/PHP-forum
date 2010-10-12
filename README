@@ -1,9 +1,6 @@
 REQUIREMENTS
-  1) php5 with pdo_mysql extension enabled
-  2) mysql
+  1) php5
+  2) mongodb http://www.php.net/manual/en/mongo.installation.php
 
 HOWTO install
-  1) Upload files to server
-  2) Make sure database dir is writable during installion
-  3) Edit index.php EMAIL_FORM (yes yes, stupid idea.. I will change that)
-  4) go to http://my-server.com/path-to-forum/?c=install
+ ... coming soon!
