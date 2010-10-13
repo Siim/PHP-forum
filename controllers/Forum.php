@@ -20,49 +20,23 @@ class Forum extends Controller{
     $this->render();
   }
   
-  public function viewtopic(){
-    $this->setFile('viewtopic.haml');
-    $this->render();
-  }
-  
-  public function newforum(){
-    $this->setFile('addforum.haml');
-    $this->render();
-  }
-  
   
   public function editforum(){
   }
 
-  public function edittopic(){
-  
-  }
 
   public function saveforum(){
     $table = $this->db->forum;
-    $table->save($_POST);
+
+    $table->save(array_filter($_POST, function($el){
+      $ignore = array('Save','f');
+      if(in_array(key($el,$ignore)))return false;
+    }));
+
     $this->redirect();
   }
 
   public function deleteforum(){
   }
   
-  public function newtopic(){
-    $this->setFile('newtopic.haml');
-    $this->render();
-  }
-  
-  public function savetopic(){
-  }
-
-  public function deletetopic(){
-  }
-
-  
-  public function savepost(){
-
-  }
-
-  public function deletepost(){
-  }
 }
