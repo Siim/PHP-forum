@@ -1,4 +1,5 @@
 <?
+/* Error reporting */
 error_reporting(E_ALL);
 
 /* Setup controllers locations */
