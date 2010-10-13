@@ -1,76 +1,24 @@
 <?php
 
-require_once 'Base.php';
-require_once FORUM_ROOT . 'database/DAO/UserDAO.php';
-require_once FORUM_ROOT . 'database/DAO/filtered/RegisterUserDAO.php';
-require_once FORUM_ROOT . 'database/DAO/filtered/ProfileUserDAO.php';
-require_once FORUM_ROOT . 'database/queries/UserQuery.php';
-class User extends Base{
-  function __construct(){
-    parent::__construct($_GET);
-  }
+class User extends Controller{
   
   public function index(){
   
   }
   
   public function saveuser(){
-    $u = new RegisterUserDAO();
-    $u->username = $_POST['username'];
-    $u->password = $_POST['password'];
-    $u->email = $_POST['email'];
-    unset($_SESSION['post']);
-    
-    //if submitted data is OK
-    if($u->validate()){
-      $u->active = $this->getActivationCode($u);
-      $u->save();
-      $_SESSION['message'] = "
-        Congrats! You have successfully registered. 
-        Please check your e-mail to complete the registration.";
-      $this->sendEmail($u,EMAIL_FROM);
-      $this->redirect("");
-    }else{
-      //no need to re-enter username, email etc...
-      $_SESSION['post'] = $_POST;
-      $this->redirect($_SERVER['HTTP_REFERER'],false);
-    }
   }
   
   public function deleteuser(){
   }
 
   public function login(){
-    $q = new UserQuery();
-    $res = $q->identify($_POST['username'],md5($_POST['password']));
-
-    if($res&&$res['active']==1){
-      $_SESSION['user'] = $res;
-    }else{
-      
-      $message = $this->getView()->setFile('wrongpass.haml')->fetch();
-      $_SESSION['message'] = $message;
-
-    }
-
-
-    $this->redirect($_SERVER['HTTP_REFERER'],false);
   }
 
   public function logout(){
-    session_destroy();
-    session_start();
-    $_SESSION['message'] = "You have successfully logged out!";
-    $this->redirect($_SERVER['HTTP_REFERER'],false);
   }
 
   public function register(){
-   if(isset($_SESSION['post']))
-     $this->getView()->assign('post',$_SESSION['post']);
-
-   $this->setTitle('User registration');
-   $this->setFile('register.haml');
-   $this->render();
   }
 
   protected function sendEmail($user, $from){
@@ -115,22 +63,6 @@ class User extends Base{
   }
 
   public function sendnewpass(){
-    $user = new UserDAO();
-    $user->email = $_POST['email'];
-    $user->fetchItemByEmail();
-    if($user->id==0){
-      $_SESSION['message'] = "User not found!";
-    }else{
-      $pass = $user->password;
-      $len = strlen($pass);
-      $newpass = substr($pass,$len-5,$len);
-      $user->password = md5($newpass);
-      $user->save();
-      $this->mailPass($user,EMAIL_FROM,$newpass);
-      $_SESSION['message'] = "The new password was sent to " . $user->email;
-
-    }
-    $this->redirect("");
   }
 
   public function editprofile(){
@@ -141,25 +73,7 @@ class User extends Base{
 
   public function saveprofile(){
     if(isset($_SESSION['user'])){
-      $user = new ProfileUserDAO();
-      $user->id = $this->user['id'];
-      $user->fetchItem();
-
-      if(md5($_POST['oldpassword'])===$user->password){
-        $user->password = md5($_POST['password']);
-        if($user->validate()){
-          $_SESSION['message'] = "Password changed!";
-          $user->save();
-          $this->redirect("");
-        }else{
-          $this->redirect($_SERVER['HTTP_REFERER'],false);
-        }
-      }else{
-        $_SESSION['message'] = "Old password doesn't match! Try again!";
-        $this->redirect($_SERVER['HTTP_REFERER'],false);
-      }
     }
-  
   }
 
   protected function mailPass($user, $from, $pass){
