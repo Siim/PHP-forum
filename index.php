@@ -1,67 +1,64 @@
 <?php
 
-  error_reporting(0);
+require_once('conf.php');
+require_once('sys/Data.php');
+require_once('sys/Controller.php');
 
-  /**
-   * Paths
-   */
-  define('WWW_ROOT',$_SERVER['DOCUMENT_ROOT']);
+session_start();
 
-  /** 
-   * forum base dir
-   * example: /forum/ OR "/"
-   */
-  $fpath = substr(getcwd(),strlen(WWW_ROOT),strlen(getcwd()));
-  define('FORUM_PATH',$fpath . "/");
-  define('FORUM_ROOT',WWW_ROOT . FORUM_PATH);
-  define('VIEW_DIR', FORUM_ROOT. '/view/');
-  define('VIEW_CACHE_DIR', FORUM_ROOT. '/view/cache/');
-  /* Define layout/design file */
-  define('LAYOUT_FILE', VIEW_DIR .'layout.haml');
-  define('ERROR_404_PAGE','error404.haml');
-  define('EMAIL_FROM','Forum admin <admin@foobarbazbathatcatdot.com>');
-  
-  require_once 'database/DAO/UserDAO.php';
-  session_start();
+/* Start requested controller
+ * If not $_GET[1] not set then use Default controller
+ * Deafault controller is first controller in conf.php
+ * Pretty url style 
+ */
+$_GET = parseurl();
 
-  //query helper
-  function query(){
-    $q = '';
-    foreach($_GET as $k => $v){
-      switch($k){
-        case 'c':
-        case 'a':
-        case 'f':
-        case 't': $q .= "$k=$v".'&'; break;
-      }
-    }
-    return '?'.$q;
-  }
-
-  //url helper
-  function url($url){
-    return FORUM_PATH . $url;
-  }
-     
-  /* c - controller */
-  if(isset($_GET['c'])){
-    $controller = $_GET['c'];
+if(isset($_GET[1])){
+  $file = $controllers[$_GET[1]];
+  if(file_exists($file)){
+    include_once($file);
+    $classname = ucfirst($_GET[1]);
+    new $classname($database);
   }else{
-    $controller = '';
-  }
+    $base = new Controller();
+    $base->error404();
   
-  switch($controller){
-    case 'user':
-      require_once 'controllers/User.php';
-      new User();
-    break;
-    case 'install':
-      require_once 'controllers/Install.php';
-      new Install();
-    break;
-
-    default:
-      require_once 'controllers/Forum.php';
-      new Forum();
-    break;
   }
+}else{
+  $key = key($controllers);
+  $file = $controllers[$key];
+  if(file_exists($file)){
+    include_once($file);
+    $classname = ucfirst($key);
+    new $classname($database);
+  }else{
+    $base = new Controller();
+    $base->error404();
+  }
+}
+
+/********************************************************
+ * Some global helper functions
+ *******************************************************/
+
+/** 
+ * Url helper for templates.
+ * @return string Correct url path
+ */
+function url($url){
+  return PATH . $url;
+}
+
+/** 
+ * Parses pretty URLS 
+ * example: url is http://example.com/foo/bar/1[/] (last slash is optional)
+ * function returns array('foo','bar','bas',1)
+ * @return array Array with pretty url params
+ */
+function parseurl(){
+  $request = substr($_SERVER['REQUEST_URI'],strlen(PATH)-1);
+  $tokens = explode("/",$request);
+  return array_filter($tokens,function($elem){
+    return $elem != '';
+  });
+}

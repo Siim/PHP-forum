@@ -8,19 +8,19 @@
     %div{ :align=>'center' }
       .login
         - if(!isset($user)):
-          %form{ :action=>url('?c=user&a=login'), :method=>'post' }
+          %form{ :action=>url('user/login'), :method=>'post' }
             %label{ :for=>'username'} Username
             %input{ :type => 'text', :name =>'username' }
             %label{ :for=>'password'} Password
             %input{ :type=>'password', :name=>'password' }
             %input.button{ :type => 'submit', :name => 'login', :value => 'Go' }
             %span.regbutton
-              %a{ :href=> url('?c=user&a=register') } Register
+              %a{ :href=> url('user/register') } Register
         - else:
           %span= 'User: ' . $user['username'] . ' / '
-          %a{ :href=>url('?c=user&a=editprofile') } Change password
+          %a{ :href=>url('user/editprofile') } Change password
           %span /
-          %a{ :href=>url('?c=user&a=logout') } Logout
+          %a{ :href=>url('user/logout') } Logout
           %span= ' / postitusi: ' . $user['posts']
         - endif
     - if($message):
@@ -29,4 +29,3 @@
           .message= $message
     - endif
     = $content
-
