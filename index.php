@@ -46,7 +46,7 @@ if(isset($_GET[1])){
  * @return string Correct url path
  */
 function url($url){
-  return PATH . $url;
+  return PATH . str_replace(' ','_',$url);
 }
 
 /** 

@@ -7,6 +7,7 @@ class Data{
   }
 
   public function __get($field){
+    $data = $this->data;
     if(isset($data[$field]))return $data[$field];
     else return false;
   

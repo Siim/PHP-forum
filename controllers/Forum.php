@@ -4,9 +4,7 @@ class Forum extends Controller{
   protected $user;
   
   public function index(){
-
-    $d = new ForumDAO();
-    $res = $d->fetchAll(0,0,50,'title ASC');
+    $res = $this->db->forum->find();
     $this->getView()->assign('teemad',$res);
     $this->setTitle('Forum');
     $this->setFile('list.haml');
@@ -14,6 +12,10 @@ class Forum extends Controller{
   }
   
   public function viewforum(){
+    $res = $this->db->forum->findOne(array(
+      'title' => str_replace('_',' ',$_GET[3])
+    ));
+    $this->getView()->assign('forum',new Data($res));
     $this->setFile('viewforum.haml');
     $this->render();
   }
@@ -24,6 +26,8 @@ class Forum extends Controller{
   }
   
   public function newforum(){
+    $this->setFile('addforum.haml');
+    $this->render();
   }
   
   
@@ -35,13 +39,17 @@ class Forum extends Controller{
   }
 
   public function saveforum(){
-  
+    $table = $this->db->forum;
+    $table->save($_POST);
+    $this->redirect();
   }
 
   public function deleteforum(){
   }
   
   public function newtopic(){
+    $this->setFile('newtopic.haml');
+    $this->render();
   }
   
   public function savetopic(){

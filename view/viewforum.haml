@@ -1,8 +1,8 @@
 .toppanel{ :align => 'center' }
    
-  - if($user)
+  - if(true)
     .toolbox
-      %a.additem{ :href => url('?a=newtopic&f=').$forum->id } New topic
+      %a.additem{ :href => url('forum/newtopic/'.$forum->title) } New topic
   .breadcrumb
     %a{ :href=> url('') } Forums
     > 

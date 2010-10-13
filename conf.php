@@ -22,5 +22,5 @@ define('ERROR_404_PAGE','error404.haml');
 
 /* Setup mongo database */
 $m = new Mongo();
-$database = $m->cms;
+$database = $m->forum;
 

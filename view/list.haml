@@ -1,8 +1,8 @@
-- if($user['admin'])
+- if(true)
   .toppanel{ :align => 'center' }
     .toolbox
       %p
-        %a.additem{ :href => url('?a=newforum')} Add new subforum
+        %a.additem{ :href => url('forum/newforum/')} Add new subforum
 
 .content{ :align => 'center' }
   %table.forums{ :cellspacing => '1', :cellpadding => '0', :width =>'720' }
@@ -22,7 +22,7 @@
         - $i++
         %td
           .ftitle
-            %a{ :href =>url("?a=viewforum&f=").$t['id']}= $t['title']
+            %a{ :href =>url("forum/viewforum/" . $t['title']) }= $t['title']
           .fdescr= $t['description']
         %td{ :align => 'center'}= $t['count'];
         %td{ :align => 'center'} 
