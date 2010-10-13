@@ -1,42 +1,18 @@
-USERS (50%):
-  -users table + session
-   done 100%
-  -adduser, register
-    done 100%
-  -groups?
-    done 0%
-  -user administration
-    done 0%
+USERS (0%):
 
-FORUMS:
+FORUMS (0%):
   -edit/delete forum/topic/post (if admin, owner)
-    done 100%
 
   -display 10 records per page (pagination)...
-    done 100%
 
   -better handler for topic data object (update...)
 
   -breadcrumbs...
-    done 99%
 
   -some input validation...
-    __set($name,$val):
-      if method found, then filter input using this method....
-      else just set obj->name = val...
-    done 100%
-
-  -input validation out of DAO...
-    make new class with needed filter that extends original DAO
-    for instance database/DAO/filtered/ForumDAO.php
-    OR
-    database/DAO/ForumDAOFiltered.php
 
 MULTILANGUAGE (0%):
 
 
-INSTALL (100%):
-  -next->next page :)
-  -create tables
-  -save conf to php class
+INSTALL (0%):
 

@@ -1,6 +1,11 @@
+NOTE: 
+This branch is under development and not ready to use. 
+No controllers implemented yet.
+
 REQUIREMENTS
   1) php5
   2) mongodb http://www.php.net/manual/en/mongo.installation.php
 
 HOWTO install
- ... coming soon!
+  TODO
+
