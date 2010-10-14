@@ -14,6 +14,12 @@ class Topic extends Controller{
   }
   
   public function savetopic(){
+    //get forum
+    $forum = $this->db->forum->findOne(array(
+      'title' => str_replace('_',' ',$_POST['f'])
+    ));
+
+
     //save post
     $post = array(
        'autohor' => 'unknown'
@@ -21,20 +27,18 @@ class Topic extends Controller{
     );
     $this->db->post->save($post);
 
-    $_POST['post'] = $this->db->createDBRef('post',$post);
+    $_POST['post'] = array($this->db->createDBRef('post',$post));
+    $_POST['forum'] = $this->db->createDBRef('forum',$forum);
+
     $topic = array_allow($_POST,array(
-      'title','post'
+      'title','post','forum'
     ));
 
     //save topic
     $this->db->topic->save($topic);
-    //$this->redirect();
+    $this->redirect();
 
-    //update forum
-    $forum = $this->db->forum->update(
-      array('title' => str_replace('_',' ',$_POST['f'])),
-      array('$push' => array('topic' => $this->db->createDBRef('topic',$topic)))
-    );
+
   }
 
   public function deletetopic(){

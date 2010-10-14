@@ -3,6 +3,8 @@
 require_once('conf.php');
 require_once('sys/Data.php');
 require_once('sys/Controller.php');
+require_once('sys/MongoData.php');
+require_once('sys/MongoRef.php');
 require_once('sys/helpers.php');
 
 session_start();

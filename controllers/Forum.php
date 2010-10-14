@@ -21,7 +21,12 @@ class Forum extends Controller{
       'title' => str_replace('_',' ',$_GET[3])
     ));
 
-    $this->getView()->assign('forum',new Data($forum));
+    $topics = $this->db->topic->findOne();
+    $data = new MongoData($topics,$this->db);
+
+    var_dump($data->forum->fetch());
+
+    $this->getView()->assign('forum',new MongoData($forum));
     $this->setFile('viewforum.haml');
     $this->render();
   }
