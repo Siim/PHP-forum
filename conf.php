@@ -4,9 +4,10 @@ error_reporting(E_ALL);
 
 /* Setup controllers locations */
 $controllers = array(
-    'forum' => 'controllers/Forum.php'
+    'forum'   => 'controllers/Forum.php'
   , 'install' => 'controllers/Install.php'
-  , 'user' => 'controllers/User.php'
+  , 'user'    => 'controllers/User.php'
+  , 'topic'   => 'controllers/Topic.php'
 );
 
 /* Setup some global variables */

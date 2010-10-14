@@ -11,11 +11,17 @@ class Forum extends Controller{
     $this->render();
   }
   
+  public function newforum(){
+    $this->setFile('addforum.haml');
+    $this->render();
+  }
+
   public function viewforum(){
-    $res = $this->db->forum->findOne(array(
+    $forum = $this->db->forum->findOne(array(
       'title' => str_replace('_',' ',$_GET[3])
     ));
-    $this->getView()->assign('forum',new Data($res));
+
+    $this->getView()->assign('forum',new Data($forum));
     $this->setFile('viewforum.haml');
     $this->render();
   }
@@ -28,10 +34,11 @@ class Forum extends Controller{
   public function saveforum(){
     $table = $this->db->forum;
 
-    $table->save(array_filter($_POST, function($el){
-      $ignore = array('Save','f');
-      if(in_array(key($el,$ignore)))return false;
-    }));
+    //allow only these fields to be saved
+
+    $table->save(array_allow($_POST,array(
+      'title','description'
+    )));
 
     $this->redirect();
   }

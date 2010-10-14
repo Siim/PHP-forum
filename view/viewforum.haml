@@ -2,7 +2,7 @@
    
   - if(true)
     .toolbox
-      %a.additem{ :href => url('forum/newtopic/'.$forum->title) } New topic
+      %a.additem{ :href => url('topic/newtopic/'.$forum->title) } New topic
   .breadcrumb
     %a{ :href=> url('') } Forums
     > 
@@ -23,7 +23,7 @@
       - endif
     
     - $i=0
-    - foreach($teemad as $t)
+    - foreach($forum->post as $t)
       - $step = $i%2
       %tr{ :class => "row-$step"}
         - $i++

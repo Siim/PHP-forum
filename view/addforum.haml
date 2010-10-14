@@ -9,7 +9,6 @@
         .formwrap.postform
           %form{ :method => 'post', :action => url('forum/saveforum') }
             %div
-              %input{ :type => 'hidden', :name=>'f', :value=>$f }
               %label{ :for => 'title'} Title
               %input{ :type => 'text', :name => title, :value=>utf8_decode($forum->title)}
             %div

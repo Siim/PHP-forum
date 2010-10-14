@@ -14,8 +14,8 @@
     %tr.row-0
       %td{ :colspan => '3', :align => 'left' }
         .formwrap.postform
-          %form{ :method => 'post', :action => url('?a=savetopic') }
-            %input{ :type => 'hidden', :name => 'f', :value =>$parent}
+          %form{ :method => 'post', :action => url('topic/savetopic') }
+            %input{ :type => 'hidden', :name => 'f', :value =>$_GET[3]}
             %div
               %label{ :for => 'title'} Title
               %input{ :type => 'text', :name => 'title', :value=>utf8_decode($post['title']) }
