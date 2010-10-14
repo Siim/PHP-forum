@@ -21,11 +21,23 @@ class Forum extends Controller{
       'title' => str_replace('_',' ',$_GET[3])
     ));
 
+    if(isset($_GET[4])){
+      $page = (int) $_GET[4];
+    }else{
+      $page = 1;
+    }
     $topics = $this->db->topic->findOne();
-    $data = new MongoData($topics,$this->db);
+    $fref = $this->db->createDBRef('forum',$forum);
+    $data = $this->db->topic->find(array(
+      'forum' => $fref
+    ))->skip(($page-1)*10)->limit(10);
+    $count = $data->count(false);
 
-    var_dump($data->forum->fetch());
-
+    $lastpage = floor($count/10) + (($count%10>0)?1:0);
+    $this->getView()->assign('topics',$data);
+    $this->getView()->assign('page',$page);
+    $this->getView()->assign('lastpage',$lastpage);
+    $this->getView()->assign('count',$count);
     $this->getView()->assign('forum',new MongoData($forum));
     $this->setFile('viewforum.haml');
     $this->render();

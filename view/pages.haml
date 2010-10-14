@@ -1,24 +1,17 @@
-- if($page>1&&$page<=$count):
-  %a{ :href => url(query() . 'page='. ($page-10)) } Previous
+- if($page>1):
+  %a{ :href => (request_uri(3) .'/'. ($page-1)) } Previous
 - else:
   Previous
 - endif
 %span /
-- if($count>$page+10):
-  %a{ :href => url(query() . 'page='. ($page+10)) } Next 
+- if($count>$page*10):
+  %a{ :href => request_uri(3).'/'.($page+1) } Next 
 - else:
   Next
 - endif
 %span / 
-  - $last = $count-($count%10)
-  - if($count>10&&$last!=$page):
-    - if($count>$last):
-      %a{ :href=>url(query(). 'page='. $last)} Last
-    - elseif($page!=($last-10)):
-      %a{ :href=>url(query(). 'page='. ($last-10))} Last
-    - else:
-      %span Last
-    - endif
+  - if($page<$lastpage):
+    %a{ :href=>request_uri(3) .'/'. $lastpage } Last
   - else:
     Last
   - endif
