@@ -29,14 +29,15 @@ class Topic extends Controller{
 
     $_POST['post'] = array($this->db->createDBRef('post',$post));
     $_POST['forum'] = $this->db->createDBRef('forum',$forum);
+    $_POST['count'] = 1;
 
     $topic = array_allow($_POST,array(
-      'title','post','forum'
+      'title','post','forum','count'
     ));
 
     //save topic
     $this->db->topic->save($topic);
-    $this->redirect();
+    $this->redirect('forum/viewforum/'.$_POST['f']);
 
 
   }
