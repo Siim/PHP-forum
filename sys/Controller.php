@@ -23,7 +23,7 @@ class Controller{
       if($this->isAction($action)){
         $this->$action();
       }else{
-        $this->error404();
+        $this->index();
       }
     }else{
       $this->index();
