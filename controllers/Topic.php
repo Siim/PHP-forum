@@ -1,8 +1,15 @@
 <?php
 class Topic extends Controller{
   public function index(){
-    echo "mingi lahe v";
-  
+    $v = $this->getView();
+    $topic = $this->db->topic->findOne(array(
+      'uri' => $_GET[2]
+    ));
+    $data = new MongoData($topic,$this->db);
+    $v->assign('posts',$data->post);
+    $this->setFile('viewtopic.haml');
+    $this->render();
+    
   }
 
   public function edittopic(){

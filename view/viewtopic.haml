@@ -2,7 +2,7 @@
   .breadcrumb
     %a{ :href=> url('') } Forums
     > 
-    %a{ :href=> url('?a=viewforum&f=').$parent->id }= $parent->title
+    %a{ :href=> url('forum/viewforum/') }= asd
     >
     %span.active= strlen($topic->title)>50?substr($topic->title,0,50).'...':$topic->title
     .pages
@@ -13,7 +13,6 @@
     %tr.forumbg.forumhead
       %td.thinrow.top-left= $topic->title
       %td.thinrow.top-right{ :width=>'10' }
-      
     - foreach($posts as $post)
       %tr.row-0
         %td.postrow{ :valign => 'top', :colspan=>'2'}
@@ -22,9 +21,9 @@
               %a{ :href=>url('?a=deletepost&pid='.$post['id']) }
                 %img{ :src => url('img/delete.png'), :alt=> 'Delete'}
             - endif
-            %span.username= $post['username']
-            %span.pdate= '[' . date("d.m.Y H:i",strtotime($post['date'])) . ']:'
-          .topiccontent= $bbcode->format(strip_tags($post['content']))
+            %span.username= $post->author
+            %span.pdate= '[' .'date' . ']:'
+          .topiccontent= $post->content
     %tr.forumbg.forumfoot
       %td.bottom-left{ :align=>'center' }
       %td.bottom-right
