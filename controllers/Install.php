@@ -1,7 +1,7 @@
 <?php
 
 class Install extends Controller{
-  protected $file;
+  protected $file='conf/mongo.conf';
   protected $template;
 
 

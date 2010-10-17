@@ -18,7 +18,7 @@ class Forum extends Controller{
 
   public function viewforum(){
     $forum = $this->db->forum->findOne(array(
-      'title' => str_replace('_',' ',$_GET[3])
+      'uri' => $_GET[3]
     ));
 
     if(isset($_GET[4])){
@@ -51,11 +51,17 @@ class Forum extends Controller{
   public function saveforum(){
     $table = $this->db->forum;
 
-    //allow only these fields to be saved
-
-    $table->save(array_allow($_POST,array(
-      'title','description'
-    )));
+    $post = $_POST;
+    $post['uri'] = str_replace(' ','-',$post['title']);
+    
+    // check if the title exists
+    // if it exists, then dont save the duplicate :)
+    // yes it's arguable
+    if(!$table->findOne(array('uri' => $post['uri']))){
+      $table->save(array_allow($post,array(
+        'title','description','uri'
+      )));
+    }
 
     $this->redirect();
   }

@@ -1,6 +1,7 @@
 <?php
 class Topic extends Controller{
   public function index(){
+    echo "mingi lahe v";
   
   }
 
@@ -16,30 +17,47 @@ class Topic extends Controller{
   public function savetopic(){
     //get forum
     $forum = $this->db->forum->findOne(array(
-      'title' => str_replace('_',' ',$_POST['f'])
+      'uri' => $_POST['forum_uri']
     ));
-
+    $forumref = $this->db->createDBRef('forum',$forum);
 
     //save post
     $post = array(
-       'autohor' => 'unknown'
+       'author' => 'poweruser'
       ,'content' => $_POST['content']
     );
+
     $this->db->post->save($post);
-
-    $_POST['post'] = array($this->db->createDBRef('post',$post));
-    $_POST['forum'] = $this->db->createDBRef('forum',$forum);
+    $postref = $this->db->createDBRef('post',$post);
+    $_POST['post'] = array($postref);
+    $_POST['forum'] = $forumref;
     $_POST['count'] = 1;
+    $_POST['uri'] = str_replace(' ','-',$_POST['title']);
 
-    $topic = array_allow($_POST,array(
-      'title','post','forum','count'
+    $data = array_allow($_POST,array(
+      'title','post','forum','count','uri'
     ));
 
-    //save topic
-    $this->db->topic->save($topic);
-    $this->redirect('forum/viewforum/'.$_POST['f']);
+    //check topic's name... if found, post to existing topic
+    $topic = $this->db->topic->findOne(array(
+      'title' => $data['title']
+    ));
 
+    if($topic){
+      //push post to existing topic
+      $this->db->topic->update(
+        array(
+          '_id' => $topic['_id']
+        ),
+        array(
+          '$push' => array('post'  => $postref)
+         ,'$inc'  => array('count' => 1)
+        ));
+    }else{
+      $this->db->topic->save($data);
+    }
 
+    $this->redirect('forum/viewforum/'.$_POST['forum_uri']);
   }
 
   public function deletetopic(){
