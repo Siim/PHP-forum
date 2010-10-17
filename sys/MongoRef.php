@@ -9,6 +9,12 @@ class MongoRef implements RefIf{
     $this->data = $data;
   }
 
+  public function __get($field){
+    $data = $this->fetch();
+    if(isset($data[$field]))return $data[$field];
+    else return null;
+  }
+
   public function fetch(){
     $ref = $this->data['$ref'];
     $id = $this->data['$id'];
