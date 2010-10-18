@@ -2,7 +2,7 @@
   .breadcrumb
     %a{ :href=> url('') } Forums
     > 
-    %a{ :href=> url('forum/viewforum/') }= asd
+    %a{ :href=> url('forum/viewforum/'.urlencode($forum->uri)) }= $forum->title
     >
     %span.active= strlen($topic->title)>50?substr($topic->title,0,50).'...':$topic->title
     .pages
@@ -13,6 +13,7 @@
     %tr.forumbg.forumhead
       %td.thinrow.top-left= $topic->title
       %td.thinrow.top-right{ :width=>'10' }
+      .test= count($posts)
     - foreach($posts as $post)
       %tr.row-0
         %td.postrow{ :valign => 'top', :colspan=>'2'}
@@ -27,7 +28,7 @@
     %tr.forumbg.forumfoot
       %td.bottom-left{ :align=>'center' }
       %td.bottom-right
-  - if($user):
+  - if(/*$user*/1):
     %table.postreplay.forums{ :cellspacing => '0.0', :cellpadding => '0.0', :width =>'720' }
       %tr.forumbg.forumhead
         %td.top-left 
@@ -36,8 +37,8 @@
       %tr.row-0
         %td{ :colspan => '2', :align => 'left' }
           .formwrap.postform
-            %form{ :method => 'post', :action => url('?a=savepost') }
-              %input{ :type => 'hidden', :name => 'id', value => $id}
+            %form{ :method => 'post', :action => url('topic/savepost') }
+              %input{ :type => 'hidden', :name => 'topic_uri', value => urlencode($topic->uri) }
               %div
                 %label{ :for => 'content'} 
                   %a{ :name=>'last'} Replay

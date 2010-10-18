@@ -2,7 +2,7 @@
    
   - if(true)
     .toolbox
-      %a.additem{ :href => url('topic/newtopic/'.$forum->uri) } New topic
+      %a.additem{ :href => url('topic/newtopic/'.urlencode($forum->uri)) } New topic
   .breadcrumb
     %a{ :href=> url('') } Forums
     > 
@@ -29,7 +29,7 @@
         - $i++
         %td
           .ftitle
-            %a{ :href =>url('topic/'.$t['uri'])}= $t['title']
+            %a{ :href =>url('topic/'.urlencode($t['uri'] ))}= $t['title']
           .fdescr= $t['description']
         %td{ :align => 'center'}= $t['count']
         %td{ :align => 'center'} 

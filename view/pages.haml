@@ -1,17 +1,17 @@
 - if($page>1):
-  %a{ :href => (request_uri(3) .'/'. ($page-1)) } Previous
+  %a{ :href => (request_uri($uri_len) .'/'. ($page-1)) } Previous
 - else:
   Previous
 - endif
 %span /
 - if($count>$page*10):
-  %a{ :href => request_uri(3).'/'.($page+1) } Next 
+  %a{ :href => request_uri($uri_len).'/'.($page+1) } Next 
 - else:
   Next
 - endif
 %span / 
   - if($page<$lastpage):
-    %a{ :href=>request_uri(3) .'/'. $lastpage } Last
+    %a{ :href=>request_uri($uri_len) .'/'. $lastpage } Last
   - else:
     Last
   - endif

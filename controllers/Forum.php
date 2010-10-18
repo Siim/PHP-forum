@@ -18,7 +18,7 @@ class Forum extends Controller{
 
   public function viewforum(){
     $forum = $this->db->forum->findOne(array(
-      'uri' => $_GET[3]
+      'uri' => urldecode($_GET[3])
     ));
 
     if(isset($_GET[4])){
@@ -26,6 +26,7 @@ class Forum extends Controller{
     }else{
       $page = 1;
     }
+
     $topics = $this->db->topic->findOne();
     $fref = $this->db->createDBRef('forum',$forum);
     $data = $this->db->topic->find(array(
@@ -35,6 +36,7 @@ class Forum extends Controller{
 
     $lastpage = floor($count/10) + (($count%10>0)?1:0);
     $this->getView()->assign('topics',$data);
+    $this->getView()->assign('uri_len',3); //for pagination
     $this->getView()->assign('page',$page);
     $this->getView()->assign('lastpage',$lastpage);
     $this->getView()->assign('count',$count);
@@ -52,7 +54,7 @@ class Forum extends Controller{
     $table = $this->db->forum;
 
     $post = $_POST;
-    $post['uri'] = str_replace(' ','-',$post['title']);
+    $post['uri'] = str_replace(' ','.',$post['title']);
     
     // check if the title exists
     // if it exists, then dont save the duplicate :)

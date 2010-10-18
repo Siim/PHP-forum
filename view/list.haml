@@ -22,7 +22,7 @@
         - $i++
         %td
           .ftitle
-            %a{ :href =>url("forum/viewforum/" . $t['uri']) }= $t['title']
+            %a{ :href =>url("forum/viewforum/" . urlencode($t['uri'])) }= $t['title']
           .fdescr= $t['description']
         %td{ :align => 'center'}= $t['count'];
         %td{ :align => 'center'} 
