@@ -6,21 +6,29 @@ class Topic extends Controller{
     $topic = $this->db->topic->findOne(array(
       'uri' => urldecode($_GET[2])
     ));
-    $data = new MongoData($topic,$this->db);
-    $forum = $data->forum;
-    $post = $data->post;
-    $count = count($post);
-    if(isset($_GET[3]))$page=(int)$_GET[3];
-    else $page = 1;
-    $post = array_slice($post,($page-1)*10,$page*10);
-    $lastpage = floor($count/10) + (($count%10>0)?1:0);
+
+    if(isset($_GET[3])&&$_GET[3]>0){
+      $page=(int)$_GET[3];
+      if($page>$topic['count'])$page=$topic
+    }else{
+      $page = 1;
+    }
+
+    $topicref = $this->db->createDBRef('topic',$topic);
+    $data = $this->db->post->find(array(
+      'topic' => $topicref
+    ))->skip(($page-1)*10)->limit(10);
+
+    $count = $data->count(false);
+    $topic = new MongoData($topic,$this->db);
+    $forum = $topic->forum;
     $v->assign('uri_len',2); //for pagination
     $v->assign('page',$page);
-    $v->assign('lastpage',$lastpage);
+    $v->assign('lastpage',lastpage($count));
     $v->assign('count',$count);
-    $v->assign('topic',$data);
+    $v->assign('topic',$topic);
     $v->assign('forum',$forum);
-    $v->assign('posts',$post);
+    $v->assign('posts',$data);
     $this->setFile('viewtopic.haml');
     $this->render();
     
@@ -43,34 +51,31 @@ class Topic extends Controller{
     ));
     $forumref = $this->db->createDBRef('forum',$forum);
 
-    //save post
-    $post = array(
-       'author' => 'poweruser'
-      ,'content' => $_POST['content']
-    );
-
-    $this->db->post->save($post);
-    $postref = $this->db->createDBRef('post',$post);
-
-
-
     //check topic's name... 
     $cnt = $this->db->topic->find(array(
       'title' => $_POST['title']
     ))->count(true);
 
     $req = $_POST;
-    $req['post'] = array($postref);
     $req['forum'] = $forumref;
     $req['count'] = 1;
     $req['uri'] = str_replace(' ','.',$_POST['title']);
-    if($cnt>0)$req['uri'] .= ":$cnt";
+    if($cnt>0)$req['uri'] .= ".$cnt";
 
     $data = array_allow($req,array(
-      'title','post','forum','count','uri'
+      'title','count','uri','forum'
     ));   
     
     $this->db->topic->save($data);
+    $tref = $this->db->createDBRef('topic',$data);
+    //save post
+    $post = array(
+       'topic'  => $tref
+      ,'author' => 'poweruser'
+      ,'content' => $_POST['content']
+    );
+
+    $this->db->post->save($post);
     $this->redirect('forum/viewforum/'.$forum_uri);
   }
 
@@ -80,24 +85,23 @@ class Topic extends Controller{
   
   public function savepost(){
     $topic_uri = urldecode($_POST['topic_uri']);
-    $post = array(
-       'author' => 'poweruser'
-      ,'content' => $_POST['content']
-    );
-    $this->db->post->save($post);
-    $postref = $this->db->createDBRef('post',$post);
-
     $this->db->topic->update(
       array('uri' => $topic_uri),
-      array(
-        '$push' => array('post'  => $postref)
-       ,'$inc'  => array('count' => 1)
-      ));
+      array('$inc'  => array('count' => 1))
+    );
     $topic = $this->db->topic->findOne(array('uri' => $topic_uri));
-    $count = count($topic['post']);
+    $topicref = $this->db->createDBRef('topic',$topic);
+    $post = array(
+       'topic'  => $topicref
+      ,'author' => 'poweruser'
+      ,'content' => $_POST['content']
+    );
+
+    $this->db->post->save($post);
+    $count = $topic['count'];
     //TODO: add lastpage function to helpers
     $lastpage = floor($count/10) + (($count%10>0)?1:0);
-    $this->redirect('topic/'.$topic_uri . '/' . $lastpage);
+    $this->redirect('topic/'.$topic_uri . '/' . $lastpage .'#last');
   }
 
   public function deletepost(){

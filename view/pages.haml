@@ -1,7 +1,9 @@
 - if($page>1):
+  %a{ :href => (request_uri($uri_len) .'/1') } First
+  %span /
   %a{ :href => (request_uri($uri_len) .'/'. ($page-1)) } Previous
 - else:
-  Previous
+  First / Previous
 - endif
 %span /
 - if($count>$page*10):

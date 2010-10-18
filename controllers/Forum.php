@@ -21,13 +21,12 @@ class Forum extends Controller{
       'uri' => urldecode($_GET[3])
     ));
 
-    if(isset($_GET[4])){
+    if(isset($_GET[4])&&$_GET[4]>0){
       $page = (int) $_GET[4];
     }else{
       $page = 1;
     }
 
-    $topics = $this->db->topic->findOne();
     $fref = $this->db->createDBRef('forum',$forum);
     $data = $this->db->topic->find(array(
       'forum' => $fref

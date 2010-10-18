@@ -22,9 +22,9 @@
               %a{ :href=>url('?a=deletepost&pid='.$post['id']) }
                 %img{ :src => url('img/delete.png'), :alt=> 'Delete'}
             - endif
-            %span.username= $post->author
+            %span.username= $post['author']
             %span.pdate= '[' .'date' . ']:'
-          .topiccontent= $post->content
+          .topiccontent= $post['content']
     %tr.forumbg.forumfoot
       %td.bottom-left{ :align=>'center' }
       %td.bottom-right
