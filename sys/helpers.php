@@ -25,3 +25,13 @@ function request_uri($len=0){
 
   return '/' . implode("/",$get);
 }
+
+/**
+ * Calculate last page number
+ * @param int Total items
+ * @param int Items per page
+ * @return int Last page number
+ */
+function lastpage($count,$perpage=10){
+  return floor($count/$perpage) + (($count%$perpage>0)?1:0);
+}
