@@ -7,14 +7,10 @@ class Topic extends Controller{
       'uri' => urldecode($_GET[2])
     ));
 
-    if(isset($_GET[3])&&$_GET[3]>0){
-      $page=(int)$_GET[3];
-      $last = lastpage($topic['count']);
-      if($page>$last)$page=$last;
-    }else{
-      $page = 1;
-    }
+    $page = 1;
+    if(isset($_GET[3]))$page = currentpage($_GET[3],lastpage($topic['count']));
 
+    //get all posts for current topic
     $topicref = $this->db->createDBRef('topic',$topic);
     $data = $this->db->post->find(array(
       'topic' => $topicref
@@ -22,13 +18,15 @@ class Topic extends Controller{
 
     $count = $data->count(false);
     $topic = new MongoData($topic,$this->db);
-    $forum = $topic->forum;
-    $this->uri_len = 2; //for pagination
+
+    //assign template vars
+    //how long is path? (keep url short in pagination)
+    $this->uri_len = 2; 
     $this->page = $page;
     $this->lastpage = lastpage($count);
     $this->count = $count;
     $this->topic = $topic;
-    $this->forum = $forum;
+    $this->forum = $topic->forum;
     $this->posts = $data;
     $this->setFile('viewtopic.haml');
     $this->render();
@@ -60,11 +58,12 @@ class Topic extends Controller{
     $req = $_POST;
     $req['forum'] = $forumref;
     $req['count'] = 1;
+    $req['lastpost'] = new MongoDate();
     $req['uri'] = str_replace(' ','.',$_POST['title']);
     if($cnt>0)$req['uri'] .= ".$cnt";
 
     $data = array_allow($req,array(
-      'title','count','uri','forum'
+      'title','count','uri','forum','lastpost'
     ));   
     
     $this->db->topic->save($data);
@@ -77,6 +76,11 @@ class Topic extends Controller{
     );
 
     $this->db->post->save($post);
+    $this->db->forum->update(
+      array('uri' => $forum_uri),
+      array('$inc'  => array('count' => 1)),
+      array('$set' => array('lastpost' => new MongoDate()))
+    );
     $this->redirect('forum/viewforum/'.$forum_uri);
   }
 
@@ -88,9 +92,16 @@ class Topic extends Controller{
     $topic_uri = urldecode($_POST['topic_uri']);
     $this->db->topic->update(
       array('uri' => $topic_uri),
-      array('$inc'  => array('count' => 1))
+      array('$inc'  => array('count' => 1)),
+      array('$set' => array('lastpost' => new MongoDate()))
     );
     $topic = $this->db->topic->findOne(array('uri' => $topic_uri));
+
+    $this->db->forum->update(
+      array('_id' => $topic['forum']['$id']).
+      array('$set' => array('lastpost', new MongoData()))
+    );
+
     $topicref = $this->db->createDBRef('topic',$topic);
     $post = array(
        'topic'  => $topicref

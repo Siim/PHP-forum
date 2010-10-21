@@ -51,3 +51,12 @@ function currentpage($page, $lastpage){
   }
   return $page;
 }
+
+/**
+ * Return only seconds from mongo date format
+ * @param string Mongo timestamp
+ * @return int Unix timestamp in seconds
+ */
+function from_mongo_date($timestamp){
+  return next(sscanf($timestamp,"%d %d"));
+}
