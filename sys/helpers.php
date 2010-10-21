@@ -35,3 +35,19 @@ function request_uri($len=0){
 function lastpage($count,$perpage=10){
   return floor($count/$perpage) + (($count%$perpage>0)?1:0);
 }
+
+/**
+ * Calculate current page number
+ * @param int requested page number
+ * @param int known last page
+ * @return int page number within correct bounds
+ */
+function currentpage($page, $lastpage){
+  $page = (int) $page;
+  if($page>0){
+    if($page>$lastpage)$page=$lastpage;
+  }else{
+    $page = 1;
+  }
+  return $page;
+}
