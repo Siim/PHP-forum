@@ -9,7 +9,8 @@ class Topic extends Controller{
 
     if(isset($_GET[3])&&$_GET[3]>0){
       $page=(int)$_GET[3];
-      if($page>$topic['count'])$page=$topic
+      $last = lastpage($topic['count']);
+      if($page>$last)$page=$last;
     }else{
       $page = 1;
     }

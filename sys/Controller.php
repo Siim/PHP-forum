@@ -7,9 +7,9 @@ require_once ROOT . '/lib/phphaml/includes/haml/HamlParser.class.php';
  */
 
 class Controller{
-  protected $view;
-  protected $content; 
-  protected $user;
+  private $view;
+  private $content; 
+  private $user;
   public $db;
 
   public function __construct($db){
@@ -30,6 +30,14 @@ class Controller{
     }
   }
 
+  public function __set($param,$val){
+    if(get_class($this)=='Controller'){
+      $this->$param = $val;
+    }else{
+      $this->view->assign($param,$val);
+    }
+  }
+
   /**
    * index method is default action (get param a=index)
    */
@@ -43,6 +51,16 @@ class Controller{
 
   public function getDB(){
     return $this->db;
+  }
+
+  /**
+   * Redirect to specified url
+   * TODO: move redirect to sys/helpers.php instead?
+   */
+  public function redirect($addr='',$baseurl=true){
+    if($baseurl)$h=url($addr);
+    else $h=$addr;
+    header("Location: $h");
   }
 
   /**
@@ -74,35 +92,9 @@ class Controller{
     }
   }
   
-  protected function isAction($method){
+  private function isAction($method){
     $methods = get_class_methods($this);
     return (array_search($method, $methods)!==false?true:false);
-  }
-  
-  /**
-   * Assign $title var for template 
-   */
-  protected function setTitle($title='Untitled'){
-    $this->getView()->assign('title',$title);
-  }
-  
-  protected function redirect($addr='',$baseurl=true){
-    
-    if($baseurl)$h=url($addr);
-    else $h=$addr;
-    header("Location: $h");
-  }
-
-  /**
-   * Assign message to view and delete from session
-   */
-  protected function setMessage($type){
-  
-    if(isset($_SESSION[$type])){
-      $message = $_SESSION[$type];
-      unset($_SESSION[$type]);
-    }
-    $this->getView()->assign($type,$message);
   }
   
 }

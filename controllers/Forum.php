@@ -5,8 +5,7 @@ class Forum extends Controller{
   
   public function index(){
     $res = $this->db->forum->find();
-    $this->getView()->assign('teemad',$res);
-    $this->setTitle('Forum');
+    $this->teemad = $res;
     $this->setFile('list.haml');
     $this->render();
   }
