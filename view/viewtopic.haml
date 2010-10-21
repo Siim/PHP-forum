@@ -24,7 +24,11 @@
             - endif
             %span.username= $post['author']
             %span.pdate= '[' .'date' . ']:'
-          .topiccontent= $post['content']
+          - if($post['deleted']==1):
+            .topiccontent [deleted]
+          - else:
+            .topiccontent= $post['content']
+          - endif
     %tr.forumbg.forumfoot
       %td.bottom-left{ :align=>'center' }
       %td.bottom-right

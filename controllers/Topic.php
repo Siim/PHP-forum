@@ -92,21 +92,25 @@ class Topic extends Controller{
     $topic_uri = urldecode($_POST['topic_uri']);
     $this->db->topic->update(
       array('uri' => $topic_uri),
-      array('$inc'  => array('count' => 1)),
-      array('$set' => array('lastpost' => new MongoDate()))
+      array(
+        '$inc'  => array('count' => 1),
+        '$set' => array('lastpost' => new MongoDate())
+      )
     );
     $topic = $this->db->topic->findOne(array('uri' => $topic_uri));
 
     $this->db->forum->update(
-      array('_id' => $topic['forum']['$id']).
-      array('$set' => array('lastpost', new MongoData()))
+      array('_id' => $topic['forum']['$id']),
+      array('$set' => array('lastpost' => new MongoDate()))
     );
 
     $topicref = $this->db->createDBRef('topic',$topic);
     $post = array(
-       'topic'  => $topicref
-      ,'author' => 'poweruser'
+       'topic'   => $topicref
+      ,'author'  => 'poweruser'
       ,'content' => $_POST['content']
+      ,'posted'  => new MongoDate()
+      ,'deleted' => 0
     );
 
     $this->db->post->save($post);
@@ -116,6 +120,10 @@ class Topic extends Controller{
   }
 
   public function deletepost(){
+    $this->db->post->update(
+      array('$_id' => $_GET[3]),
+      array('$set' => array('deleted' => 1))
+    );
   }
   
 }

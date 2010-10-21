@@ -29,7 +29,7 @@
           - if($t['count']==0):
             -
           - else:
-            = date("d.m.Y H:i",strtotime($t['lastpost']))
+            = date("d.m.Y H:i",$t['lastpost']->sec)
           - endif
 
         - if($user['admin']):

@@ -36,8 +36,7 @@
           - if($t['count']==0):
             -
           - else:
-            - $sec = explode(" ",$t['lastpost'])
-            = date("Y-m-d h:i",$sec[1])
+            = date("d.m.Y H:i",$t['lastpost']->sec)
           - endif
         - if($user and $user['admin']):
           %td
