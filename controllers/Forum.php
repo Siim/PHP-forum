@@ -33,12 +33,12 @@ class Forum extends Controller{
     $count = $data->count(false);
 
     $lastpage = floor($count/10) + (($count%10>0)?1:0);
-    $this->getView()->assign('topics',$data);
-    $this->getView()->assign('uri_len',3); //for pagination
-    $this->getView()->assign('page',$page);
-    $this->getView()->assign('lastpage',$lastpage);
-    $this->getView()->assign('count',$count);
-    $this->getView()->assign('forum',new MongoData($forum));
+    $this->topics = $data;
+    $this->uri_len = 3; //for pagination
+    $this->page = $page;
+    $this->lastpage = $lastpage;
+    $this->count = $count;
+    $this->forum = new MongoData($forum);
     $this->setFile('viewforum.haml');
     $this->render();
   }

@@ -23,13 +23,13 @@ class Topic extends Controller{
     $count = $data->count(false);
     $topic = new MongoData($topic,$this->db);
     $forum = $topic->forum;
-    $v->assign('uri_len',2); //for pagination
-    $v->assign('page',$page);
-    $v->assign('lastpage',lastpage($count));
-    $v->assign('count',$count);
-    $v->assign('topic',$topic);
-    $v->assign('forum',$forum);
-    $v->assign('posts',$data);
+    $this->uri_len = 2; //for pagination
+    $this->page = $page;
+    $this->lastpage = lastpage($count);
+    $this->count = $count;
+    $this->topic = $topic;
+    $this->forum = $forum;
+    $this->posts = $data;
     $this->setFile('viewtopic.haml');
     $this->render();
     
@@ -100,8 +100,7 @@ class Topic extends Controller{
 
     $this->db->post->save($post);
     $count = $topic['count'];
-    //TODO: add lastpage function to helpers
-    $lastpage = floor($count/10) + (($count%10>0)?1:0);
+    $lastpage = lastpage($count);
     $this->redirect('topic/'.$topic_uri . '/' . $lastpage .'#last');
   }
 
